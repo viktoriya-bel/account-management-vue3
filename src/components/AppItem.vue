@@ -91,6 +91,7 @@ const validateForm = () => {
         ? 'Необходимо использовать разделитель'
         : '';
   }
+
   if (Object.values(errorsForm).every((errorText) => errorText === '')) emit('save');
 };
 </script>

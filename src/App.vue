@@ -36,10 +36,10 @@ import { ref } from 'vue';
 
 const accountStore = useAccountStore();
 const { getItems } = storeToRefs(accountStore);
-const { removeItem, addTestData, saveItem } = accountStore;
-addTestData();
+const { removeItem, initData, saveItem } = accountStore;
+initData();
 
-const items = ref(getItems);
+const items = ref(getItems.value.slice());
 
 const addItem = () => {
   items.value.push({ label: '', type: ItemType.local, login: '', password: '' });

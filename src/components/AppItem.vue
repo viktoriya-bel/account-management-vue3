@@ -44,6 +44,7 @@ import type { ItemView } from '@/types/item';
 
 const emit = defineEmits<{
   (e: 'clickDelete'): void;
+  (e: 'save'): void;
 }>();
 
 const modelForm = defineModel<ItemView>('form', {
@@ -85,6 +86,7 @@ const validateForm = () => {
         ? 'Необходимо использовать разделитель'
         : '';
   }
+  if (Object.values(errorsForm).every((errorText) => errorText === '')) emit('save');
 };
 </script>
 

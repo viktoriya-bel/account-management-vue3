@@ -17,27 +17,29 @@
       class="mb-6"
     ></v-alert>
     <div v-for="(item, index) in items" :key="index">
-      <AppItem v-model:form="items[index]" class="item" @click-delete="deleteItem(index)"></AppItem>
+      <AppItem
+        v-model:form="items[index]"
+        class="item"
+        @click-delete="removeItem(index)"
+        @save="saveItem(items[index], index)"
+      ></AppItem>
     </div>
   </v-sheet>
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
 import { ItemType } from '@/enums/item';
-import type { ItemView } from '@/types/item';
 import AppItem from '@/components/AppItem.vue';
+import { useAccountStore } from '@/stores/accounts';
+import { storeToRefs } from 'pinia';
 
-const items = ref<ItemView[]>([
-  { label: 'XXX', type: ItemType.local, login: 'login', password: 'pass' },
-]);
+const accountStore = useAccountStore();
+const { items } = storeToRefs(accountStore);
+const { removeItem, addTestData, saveItem } = accountStore;
+addTestData();
 
 const addItem = () => {
   items.value.push({ label: '', type: ItemType.local, login: '', password: '' });
-};
-
-const deleteItem = (index: number) => {
-  items.value.splice(index, 1);
 };
 </script>
 

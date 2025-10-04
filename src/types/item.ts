@@ -8,5 +8,5 @@ export type ItemView = {
 };
 
 export interface ItemStore extends Omit<ItemView, 'label'> {
-  label: string[];
+  label: { text: string }[];
 }

@@ -20,8 +20,8 @@
       <AppItem
         v-model:form="items[index]"
         class="item"
-        @click-delete="removeItem(index)"
-        @save="saveItem(items[index], index)"
+        @click-delete="clickDeleteHundler(index)"
+        @save="saveItem(item, index)"
       ></AppItem>
     </div>
   </v-sheet>
@@ -43,6 +43,11 @@ const items = ref(getItems.value.slice());
 
 const addItem = () => {
   items.value.push({ label: '', type: ItemType.local, login: '', password: '' });
+};
+
+const clickDeleteHundler = (index: number) => {
+  removeItem(index);
+  items.value.splice(index, 1);
 };
 </script>
 

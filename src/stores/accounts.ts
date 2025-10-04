@@ -13,7 +13,10 @@ export const useAccountStore = defineStore('account', () => {
     if (!items.value.length) return [];
 
     return items.value.map((item) => {
-      const label = item.label.length > 1 ? item.label?.join('; ') : item.label.toString();
+      const label =
+        item.label.length > 1
+          ? item.label.map((element) => element.text)?.join('; ')
+          : item.label[0]?.text;
       return { ...item, label };
     });
   });
@@ -36,8 +39,8 @@ export const useAccountStore = defineStore('account', () => {
 
   const saveItem = (item: ItemView, index: number) => {
     const label = item.label.includes(';')
-      ? (item.label.split(';').map((element) => element.trim()) as string[])
-      : [item.label];
+      ? item.label.split(';').map((element) => ({ text: element.trim() }))
+      : [{ text: item.label }];
     items.value[index] = { ...item, label };
     localStorage.setItem('accounts', JSON.stringify(preperedDataForSave(items.value)));
   };

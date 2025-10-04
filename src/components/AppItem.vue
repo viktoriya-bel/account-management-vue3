@@ -14,7 +14,7 @@
       class="field"
       @update:modelValue="
         () => {
-          modelForm.password = null;
+          if (modelForm.type === ItemType.ldap) modelForm.password = null;
           validateForm();
         }
       "
@@ -78,7 +78,7 @@ const validateForm = () => {
 
   for (const field of fieldsName) {
     const value = modelForm.value[`${field as keyof ItemView}`];
-    if (requiredFields.includes(field) && value && !value.length)
+    if (requiredFields.includes(field) && !value?.length)
       errorsForm[`${field}`] = 'Поле обязательно для заполнения';
     else if (limitLengthsFields.includes(field) && value && value.length > maxLength(field))
       errorsForm[`${field}`] = `Максимальное количество символов ${maxLength(field)}`;

@@ -12,7 +12,12 @@
       label="Тип записи"
       :items="Object.values(ItemType)"
       class="field"
-      @update:modelValue="() => validateForm()"
+      @update:modelValue="
+        () => {
+          modelForm.password = null;
+          validateForm();
+        }
+      "
     ></v-autocomplete>
     <v-text-field
       v-model="modelForm.login"
@@ -73,9 +78,9 @@ const validateForm = () => {
 
   for (const field of fieldsName) {
     const value = modelForm.value[`${field as keyof ItemView}`];
-    if (requiredFields.includes(field) && !value.length)
+    if (requiredFields.includes(field) && value && !value.length)
       errorsForm[`${field}`] = 'Поле обязательно для заполнения';
-    else if (limitLengthsFields.includes(field) && value.length > maxLength(field))
+    else if (limitLengthsFields.includes(field) && value && value.length > maxLength(field))
       errorsForm[`${field}`] = `Максимальное количество символов ${maxLength(field)}`;
     else errorsForm[`${field}`] = '';
   }

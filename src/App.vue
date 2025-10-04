@@ -32,11 +32,14 @@ import { ItemType } from '@/enums/item';
 import AppItem from '@/components/AppItem.vue';
 import { useAccountStore } from '@/stores/accounts';
 import { storeToRefs } from 'pinia';
+import { ref } from 'vue';
 
 const accountStore = useAccountStore();
-const { items } = storeToRefs(accountStore);
+const { getItems } = storeToRefs(accountStore);
 const { removeItem, addTestData, saveItem } = accountStore;
 addTestData();
+
+const items = ref(getItems);
 
 const addItem = () => {
   items.value.push({ label: '', type: ItemType.local, login: '', password: '' });

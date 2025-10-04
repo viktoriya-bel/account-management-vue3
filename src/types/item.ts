@@ -4,5 +4,9 @@ export type ItemView = {
   label: string;
   type: ItemType;
   login: string;
-  password: string;
+  password: string | null;
 };
+
+export interface ItemStore extends Omit<ItemView, 'label'> {
+  label: string[];
+}

@@ -16,31 +16,8 @@
       variant="tonal"
       class="mb-6"
     ></v-alert>
-
-    <div v-for="(item, index) in items" :key="index" class="item">
-      <v-text-field v-model="item.label" label="Метки" class="field"></v-text-field>
-      <v-autocomplete
-        v-model="item.type"
-        label="Тип записи"
-        :items="Object.values(ItemType)"
-        class="field"
-      ></v-autocomplete>
-      <v-text-field
-        v-model="item.login"
-        label="Логин"
-        :class="['field', { 'field-stretch': item.type === ItemType.ldap }]"
-      ></v-text-field>
-      <v-text-field
-        v-if="item.type === ItemType.local"
-        v-model="item.password"
-        label="Пароль"
-        :append-inner-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
-        :type="showPassword ? 'text' : 'password'"
-        class="field"
-        @click:append-inner="showPassword = !showPassword"
-      ></v-text-field>
-
-      <v-btn density="compact" icon="mdi-delete" class="mt-3" @click="deleteItem(index)"></v-btn>
+    <div v-for="(item, index) in items" :key="index">
+      <AppItem v-model:form="items[index]" class="item" @click-delete="deleteItem(index)"></AppItem>
     </div>
   </v-sheet>
 </template>
@@ -49,11 +26,11 @@
 import { ref } from 'vue';
 import { ItemType } from '@/enums/item';
 import type { ItemView } from '@/types/item';
+import AppItem from '@/components/AppItem.vue';
 
 const items = ref<ItemView[]>([
   { label: 'XXX', type: ItemType.local, login: 'login', password: 'pass' },
 ]);
-const showPassword = ref(false);
 
 const addItem = () => {
   items.value.push({ label: '', type: ItemType.local, login: '', password: '' });
@@ -65,16 +42,6 @@ const deleteItem = (index: number) => {
 </script>
 
 <style lang="css" scoped>
-.field {
-  max-width: 100%;
-  width: 300px;
-  flex: 1 2 200px;
-}
-
-.field-stretch {
-  flex: 2 0 400px;
-}
-
 .item {
   display: flex;
   gap: 10px;
@@ -87,12 +54,6 @@ const deleteItem = (index: number) => {
     flex-direction: column;
     align-items: center;
     padding-bottom: 28px;
-  }
-
-  .field,
-  .field-stretch {
-    width: 100%;
-    flex-basis: auto;
   }
 }
 </style>

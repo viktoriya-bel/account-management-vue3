@@ -86,6 +86,7 @@ const validateForm = () => {
   }
 
   if (!errorsForm['label']?.length && !!modelForm.value.label?.length) {
+    //TODO улучишть валидацию, так как проверка на одно вхождение, а надо бы все вхождения проверять
     errorsForm['label'] =
       modelForm.value.label.includes(' ') && !modelForm.value.label.includes(';')
         ? 'Необходимо использовать разделитель'

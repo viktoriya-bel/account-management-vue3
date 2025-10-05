@@ -47,6 +47,7 @@ export const useAccountStore = defineStore('account', () => {
 
   const removeItem = (index: number) => {
     items.value.splice(index, 1);
+    // TODO LocalStorage использую для примера, лучше всего здесь использвать IndexedDB
     localStorage.setItem('accounts', JSON.stringify(preperedDataForSave(items.value)));
   };
 
